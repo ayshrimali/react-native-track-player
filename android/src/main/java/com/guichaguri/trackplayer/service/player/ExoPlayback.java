@@ -310,7 +310,7 @@ public abstract class ExoPlayback<T extends Player> implements EventListener, Me
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        int state = getState();
+        int state = playbackState; //getState();
 
         if(state != previousState) {
             if(Utils.isPlaying(state) && !Utils.isPlaying(previousState)) {

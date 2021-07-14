@@ -8,6 +8,7 @@ import com.guichaguri.trackplayer.service.metadata.MetadataManager;
 import com.guichaguri.trackplayer.service.models.NowPlayingMetadata;
 import com.guichaguri.trackplayer.service.models.Track;
 import com.guichaguri.trackplayer.service.player.ExoPlayback;
+import android.support.v4.media.session.PlaybackStateCompat;
 
 /**
  * @author Guichaguri
@@ -24,6 +25,16 @@ public class MusicBinder extends Binder {
 
     public void post(Runnable r) {
         service.handler.post(r);
+    }
+
+    public void mockPlay() {
+        getPlayback().onPlayerStateChanged(true, PlaybackStateCompat.STATE_PLAYING);
+        manager.getMetadata().setActive(true);
+    }
+
+    public void mockPause() {
+        getPlayback().onPlayerStateChanged(false, PlaybackStateCompat.STATE_PAUSED);
+        manager.getMetadata().setActive(false);
     }
 
     public ExoPlayback getPlayback() {
