@@ -236,6 +236,8 @@ export default {
   updateNowPlayingMetadata,
 
   // MARK: - Player API
+  connecting,
+  ready,
   reset,
   play,
   pause,
