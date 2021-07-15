@@ -186,6 +186,18 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
         prepared = false;
     }
 
+    @SuppressLint("WrongConstant")
+    public void markConnecting() {
+        onPlayerStateChanged(true, PlaybackStateCompat.STATE_CONNECTING);
+        prepared = false;
+    }
+
+    @SuppressLint("WrongConstant")
+    public void markReady() {
+        onPlayerStateChanged(true, PlaybackStateCompat.STATE_STOPPED);
+        prepared = true;
+    }
+
     @Override
     public void seekTo(long time) {
         prepare();
@@ -262,5 +274,4 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 //            }
 //        }
     }
-
 }

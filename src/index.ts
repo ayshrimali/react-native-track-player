@@ -133,6 +133,14 @@ async function reset(): Promise<void> {
   return TrackPlayer.reset()
 }
 
+async function connecting(): Promise<void> {
+  return TrackPlayer.connecting()
+}
+
+async function ready(): Promise<void> {
+  return TrackPlayer.ready()
+}
+
 async function play(): Promise<void> {
   return TrackPlayer.play()
 }

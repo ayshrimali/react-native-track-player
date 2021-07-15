@@ -19,6 +19,7 @@ import com.guichaguri.trackplayer.service.Utils;
 import com.guichaguri.trackplayer.service.models.NowPlayingMetadata;
 import com.guichaguri.trackplayer.service.models.Track;
 import com.guichaguri.trackplayer.service.player.ExoPlayback;
+import com.guichaguri.trackplayer.service.player.NoOpPlayback;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -316,6 +317,28 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     public void reset(final Promise callback) {
         waitForConnection(() -> {
             binder.getPlayback().reset();
+            callback.resolve(null);
+        });
+    }
+
+    @ReactMethod
+    public void connecting(final Promise callback) {
+        waitForConnection(() -> {
+            ExoPlayback playback = binder.getPlayback();
+            if (playback instanceof NoOpPlayback) {
+                ((NoOpPlayback)playback).markConnecting();
+            }
+            callback.resolve(null);
+        });
+    }
+
+    @ReactMethod
+    public void ready(final Promise callback) {
+        waitForConnection(() -> {
+            ExoPlayback playback = binder.getPlayback();
+            if (playback instanceof NoOpPlayback) {
+                ((NoOpPlayback)playback).markReady();
+            }
             callback.resolve(null);
         });
     }
