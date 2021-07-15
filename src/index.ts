@@ -133,7 +133,7 @@ async function reset(): Promise<void> {
   return TrackPlayer.reset()
 }
 
-async function reportError(error: String): Promise<void> {
+async function reportError(error: string): Promise<void> {
   return TrackPlayer.reportError(error);
 }
 
