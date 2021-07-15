@@ -322,11 +322,22 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
     }
 
     @ReactMethod
+    public void reportError(final String error, final Promise callback) {
+        waitForConnection(() -> {
+            ExoPlayback playback = binder.getPlayback();
+            if (playback instanceof NoOpPlayback) {
+                ((NoOpPlayback)playback).reportError(error);
+            }
+            callback.resolve(null);
+        });
+    }
+
+    @ReactMethod
     public void connecting(final Promise callback) {
         waitForConnection(() -> {
             ExoPlayback playback = binder.getPlayback();
             if (playback instanceof NoOpPlayback) {
-                ((NoOpPlayback)playback).markConnecting();
+
             }
             callback.resolve(null);
         });

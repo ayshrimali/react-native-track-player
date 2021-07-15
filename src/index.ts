@@ -133,6 +133,10 @@ async function reset(): Promise<void> {
   return TrackPlayer.reset()
 }
 
+async function reportError(error: String): Promise<void> {
+  return TrackPlayer.reportError(error);
+}
+
 async function connecting(): Promise<void> {
   return TrackPlayer.connecting()
 }
@@ -236,6 +240,7 @@ export default {
   updateNowPlayingMetadata,
 
   // MARK: - Player API
+  reportError,
   connecting,
   ready,
   reset,

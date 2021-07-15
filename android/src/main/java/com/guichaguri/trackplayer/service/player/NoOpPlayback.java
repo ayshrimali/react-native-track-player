@@ -194,8 +194,13 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 
     @SuppressLint("WrongConstant")
     public void markReady() {
-        onPlayerStateChanged(true, PlaybackStateCompat.STATE_STOPPED);
+        onPlayerStateChanged(true, PlaybackStateCompat.STATE_PAUSED);
         prepared = true;
+    }
+
+    public void reportError(final String error) {
+        prepared = false;
+        manager.onError("", error);
     }
 
     @Override
