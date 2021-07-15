@@ -337,7 +337,7 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         waitForConnection(() -> {
             ExoPlayback playback = binder.getPlayback();
             if (playback instanceof NoOpPlayback) {
-                ((NoOpPlayback)playback).markConnecting(error);
+                ((NoOpPlayback)playback).markConnecting();
             }
             callback.resolve(null);
         });
