@@ -73,10 +73,25 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
             // player.prepare(source, false, false);
             prepared = true;
         }
+
+        Log.d(Utils.LOG, "queue size " + queue.size());
+        if (queue.size() > 0) {
+            // only one track is supported currently
+            Track currentTrack = queue.get(0);
+            String source = null;
+            String title = currentTrack.title;
+            String url = currentTrack.uri.toString();
+            String artist = currentTrack.artist;
+            String album = currentTrack.album;
+            String date = currentTrack.date;
+            String genre = currentTrack.genre;
+            manager.onMetadataReceived(source, title, url, artist, album, date, genre);
+        }
     }
 
     @Override
     public void add(Track track, int index, Promise promise) {
+        Log.d(NoOpPlayback.class.getName(), "add called");
         queue.add(index, track);
 //        MediaSource trackSource = track.toMediaSource(context, this);
 //        source.addMediaSource(index, trackSource, manager.getHandler(), () -> promise.resolve(index));
@@ -91,7 +106,7 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 //        for(Track track : tracks) {
 //            trackList.add(track.toMediaSource(context, this));
 //        }
-
+        Log.d(NoOpPlayback.class.getName(), "add array called");
         queue.addAll(index, tracks);
         // source.addMediaSources(index, trackList, manager.getHandler(), () -> promise.resolve(index));
 

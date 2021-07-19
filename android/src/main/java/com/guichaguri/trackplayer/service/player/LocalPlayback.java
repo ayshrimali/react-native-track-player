@@ -179,7 +179,7 @@ public class LocalPlayback extends ExoPlayback<SimpleExoPlayer> {
         Integer track = getCurrentTrackIndex();
         long position = player.getCurrentPosition();
 
-        super.reset();
+//        super.reset();
         resetQueue();
 
         manager.onTrackUpdate(track, position, null, null);
