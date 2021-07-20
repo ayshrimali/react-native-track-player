@@ -91,25 +91,28 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 
     @Override
     public void add(Track track, int index, Promise promise) {
-        Log.d(NoOpPlayback.class.getName(), "add called");
+        Log.d(Utils.LOG, "NoOpPlayer add track called");
         queue.add(index, track);
 //        MediaSource trackSource = track.toMediaSource(context, this);
 //        source.addMediaSource(index, trackSource, manager.getHandler(), () -> promise.resolve(index));
 
+        promise.resolve(index);
         prepare();
     }
 
     @Override
     public void add(Collection<Track> tracks, int index, Promise promise) {
+        Log.d(Utils.LOG, "NoOpPlayer add tracks called");
 //        List<MediaSource> trackList = new ArrayList<>();
 
 //        for(Track track : tracks) {
 //            trackList.add(track.toMediaSource(context, this));
 //        }
-        Log.d(NoOpPlayback.class.getName(), "add array called");
+
         queue.addAll(index, tracks);
         // source.addMediaSources(index, trackList, manager.getHandler(), () -> promise.resolve(index));
 
+        promise.resolve(index);
         prepare();
     }
 

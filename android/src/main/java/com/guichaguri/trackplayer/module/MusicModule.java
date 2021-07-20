@@ -219,8 +219,10 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
             } else if(trackList == null || trackList.isEmpty()) {
                 callback.reject("invalid_track_object", "Track is missing a required key");
             } else if(trackList.size() == 1) {
+                Log.d(Utils.LOG, "module add track called");
                 binder.getPlayback().add(trackList.get(0), index, callback);
             } else {
+                Log.d(Utils.LOG, "module add tracks called");
                 binder.getPlayback().add(trackList, index, callback);
             }
         });
