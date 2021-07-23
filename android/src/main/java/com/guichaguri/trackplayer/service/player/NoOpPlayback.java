@@ -39,6 +39,7 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 //    private SimpleCache cache;
 //    private ConcatenatingMediaSource source;
     private boolean prepared = false;
+    protected int currentState = PlaybackStateCompat.STATE_NONE;
 
     public NoOpPlayback(Context context, MusicManager manager, SimpleExoPlayer player, long maxCacheSize,
                         boolean autoUpdateMetadata) {
@@ -90,6 +91,11 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
     }
 
     @Override
+    public int getState() {
+        return currentState;
+    }
+
+    @Override
     public void add(Track track, int index, Promise promise) {
         Log.d(Utils.LOG, "NoOpPlayer add track called");
         queue.add(index, track);
@@ -114,6 +120,21 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 
         promise.resolve(index);
         prepare();
+    }
+
+    @Override
+    public long getBufferedPosition() {
+        return 0L;
+    }
+
+    @Override
+    public float getRate() {
+        return 1.0f;
+    }
+
+    @Override
+    public long getPosition() {
+        return 0L;
     }
 
     @Override
@@ -255,6 +276,7 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
         }
 
         int state = playbackState;
+        currentState = playbackState;
         if(state != previousState) {
             if(Utils.isPlaying(state) && !Utils.isPlaying(previousState)) {
                 manager.onPlay();
