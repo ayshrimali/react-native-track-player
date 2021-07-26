@@ -18,13 +18,13 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import androidx.annotation.RequiresApi;
 import android.util.Log;
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.LoadControl;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+//import com.google.android.exoplayer2.C;
+//import com.google.android.exoplayer2.DefaultLoadControl;
+//import com.google.android.exoplayer2.DefaultRenderersFactory;
+//import com.google.android.exoplayer2.ExoPlayerFactory;
+//import com.google.android.exoplayer2.LoadControl;
+//import com.google.android.exoplayer2.SimpleExoPlayer;
+//import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.guichaguri.trackplayer.module.MusicEvents;
 import com.guichaguri.trackplayer.service.metadata.MetadataManager;
 import com.guichaguri.trackplayer.service.models.Track;
@@ -32,7 +32,7 @@ import com.guichaguri.trackplayer.service.player.ExoPlayback;
 import com.guichaguri.trackplayer.service.player.LocalPlayback;
 import com.guichaguri.trackplayer.service.player.NoOpPlayback;
 
-import static com.google.android.exoplayer2.DefaultLoadControl.*;
+//import static com.google.android.exoplayer2.DefaultLoadControl.*;
 
 /**
  * @author Guichaguri
@@ -117,27 +117,27 @@ public class MusicManager implements OnAudioFocusChangeListener {
 
     public ExoPlayback createLocalPlayback(Bundle options) {
         boolean autoUpdateMetadata = options.getBoolean("autoUpdateMetadata", true);
-        int minBuffer = (int)Utils.toMillis(options.getDouble("minBuffer", Utils.toSeconds(DEFAULT_MIN_BUFFER_MS)));
-        int maxBuffer = (int)Utils.toMillis(options.getDouble("maxBuffer", Utils.toSeconds(DEFAULT_MAX_BUFFER_MS)));
-        int playBuffer = (int)Utils.toMillis(options.getDouble("playBuffer", Utils.toSeconds(DEFAULT_BUFFER_FOR_PLAYBACK_MS)));
-        int backBuffer = (int)Utils.toMillis(options.getDouble("backBuffer", Utils.toSeconds(DEFAULT_BACK_BUFFER_DURATION_MS)));
+//        int minBuffer = (int)Utils.toMillis(options.getDouble("minBuffer", Utils.toSeconds(DEFAULT_MIN_BUFFER_MS)));
+//        int maxBuffer = (int)Utils.toMillis(options.getDouble("maxBuffer", Utils.toSeconds(DEFAULT_MAX_BUFFER_MS)));
+//        int playBuffer = (int)Utils.toMillis(options.getDouble("playBuffer", Utils.toSeconds(DEFAULT_BUFFER_FOR_PLAYBACK_MS)));
+//        int backBuffer = (int)Utils.toMillis(options.getDouble("backBuffer", Utils.toSeconds(DEFAULT_BACK_BUFFER_DURATION_MS)));
         long cacheMaxSize = (long)(options.getDouble("maxCacheSize", 0) * 1024);
-        int multiplier = DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS / DEFAULT_BUFFER_FOR_PLAYBACK_MS;
+//        int multiplier = DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS / DEFAULT_BUFFER_FOR_PLAYBACK_MS;
 
-        LoadControl control = new DefaultLoadControl.Builder()
-                .setBufferDurationsMs(minBuffer, maxBuffer, playBuffer, playBuffer * multiplier)
-                .setBackBuffer(backBuffer, false)
-                .createDefaultLoadControl();
-
-        SimpleExoPlayer player = new SimpleExoPlayer.Builder(service)
-                .setLoadControl(control)
-                .build();
-
-        player.setAudioAttributes(new com.google.android.exoplayer2.audio.AudioAttributes.Builder()
-                .setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build());
+//        LoadControl control = new DefaultLoadControl.Builder()
+//                .setBufferDurationsMs(minBuffer, maxBuffer, playBuffer, playBuffer * multiplier)
+//                .setBackBuffer(backBuffer, false)
+//                .createDefaultLoadControl();
+//
+//        SimpleExoPlayer player = new SimpleExoPlayer.Builder(service)
+//                .setLoadControl(control)
+//                .build();
+//
+//        player.setAudioAttributes(new com.google.android.exoplayer2.audio.AudioAttributes.Builder()
+//                .setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build());
 
 //        return new LocalPlayback(service, this, player, cacheMaxSize, autoUpdateMetadata);
-        return new NoOpPlayback(service, this, player, cacheMaxSize, autoUpdateMetadata);
+        return new NoOpPlayback(service, this, null, cacheMaxSize, autoUpdateMetadata);
     }
 
     @SuppressLint("WakelockTimeout")

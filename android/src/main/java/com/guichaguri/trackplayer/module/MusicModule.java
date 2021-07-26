@@ -11,8 +11,8 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.facebook.react.bridge.*;
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.Player;
+//import com.google.android.exoplayer2.C;
+//import com.google.android.exoplayer2.Player;
 import com.guichaguri.trackplayer.service.MusicBinder;
 import com.guichaguri.trackplayer.service.MusicService;
 import com.guichaguri.trackplayer.service.Utils;
@@ -152,9 +152,9 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         constants.put("RATING_PERCENTAGE", RatingCompat.RATING_PERCENTAGE);
 
         // Repeat Modes
-        constants.put("REPEAT_OFF", Player.REPEAT_MODE_OFF);
-        constants.put("REPEAT_TRACK", Player.REPEAT_MODE_ONE);
-        constants.put("REPEAT_QUEUE", Player.REPEAT_MODE_ALL);
+//        constants.put("REPEAT_OFF", Player.REPEAT_MODE_OFF);
+//        constants.put("REPEAT_TRACK", Player.REPEAT_MODE_ONE);
+//        constants.put("REPEAT_QUEUE", Player.REPEAT_MODE_ALL);
 
         return constants;
     }
@@ -465,11 +465,11 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         waitForConnection(() -> {
             long duration = binder.getPlayback().getDuration();
 
-            if(duration == C.TIME_UNSET) {
-                callback.resolve(Utils.toSeconds(0));
-            } else {
+//            if(duration == C.TIME_UNSET) {
+//                callback.resolve(Utils.toSeconds(0));
+//            } else {
                 callback.resolve(Utils.toSeconds(duration));
-            }
+//            }
         });
     }
 
@@ -478,11 +478,11 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         waitForConnection(() -> {
             long position = binder.getPlayback().getBufferedPosition();
 
-            if(position == C.POSITION_UNSET) {
-                callback.resolve(Utils.toSeconds(0));
-            } else {
+//            if(position == C.POSITION_UNSET) {
+//                callback.resolve(Utils.toSeconds(0));
+//            } else {
                 callback.resolve(Utils.toSeconds(position));
-            }
+//            }
         });
     }
 
@@ -491,11 +491,11 @@ public class MusicModule extends ReactContextBaseJavaModule implements ServiceCo
         waitForConnection(() -> {
             long position = binder.getPlayback().getPosition();
 
-            if(position == C.POSITION_UNSET) {
-                callback.reject("unknown", "Unknown position");
-            } else {
+//            if(position == C.POSITION_UNSET) {
+//                callback.reject("unknown", "Unknown position");
+//            } else {
                 callback.resolve(Utils.toSeconds(position));
-            }
+//            }
         });
     }
 

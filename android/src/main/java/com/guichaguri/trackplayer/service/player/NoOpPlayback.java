@@ -6,19 +6,19 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import com.facebook.react.bridge.Promise;
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.database.DatabaseProvider;
-import com.google.android.exoplayer2.database.ExoDatabaseProvider;
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
-import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.upstream.DataSource;
-import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
-import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
-import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
-import com.google.android.exoplayer2.upstream.cache.SimpleCache;
+//import com.google.android.exoplayer2.C;
+//import com.google.android.exoplayer2.ExoPlaybackException;
+//import com.google.android.exoplayer2.Player;
+//import com.google.android.exoplayer2.SimpleExoPlayer;
+//import com.google.android.exoplayer2.database.DatabaseProvider;
+//import com.google.android.exoplayer2.database.ExoDatabaseProvider;
+//import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
+//import com.google.android.exoplayer2.source.MediaSource;
+//import com.google.android.exoplayer2.upstream.DataSource;
+//import com.google.android.exoplayer2.upstream.cache.CacheDataSource;
+//import com.google.android.exoplayer2.upstream.cache.CacheDataSourceFactory;
+//import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor;
+//import com.google.android.exoplayer2.upstream.cache.SimpleCache;
 import com.guichaguri.trackplayer.service.MusicManager;
 import com.guichaguri.trackplayer.service.Utils;
 import com.guichaguri.trackplayer.service.models.Track;
@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * @author Guichaguri
  */
-public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
+public class NoOpPlayback extends ExoPlayback<Object> {
 
 //    private final long cacheMaxSize;
 
@@ -41,7 +41,7 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
     private boolean prepared = false;
     protected int currentState = PlaybackStateCompat.STATE_NONE;
 
-    public NoOpPlayback(Context context, MusicManager manager, SimpleExoPlayer player, long maxCacheSize,
+    public NoOpPlayback(Context context, MusicManager manager, Object player, long maxCacheSize,
                         boolean autoUpdateMetadata) {
         super(context, manager, player, autoUpdateMetadata);
 //        this.cacheMaxSize = maxCacheSize;
@@ -171,8 +171,8 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 
     @Override
     public void removeUpcomingTracks() {
-        int currentIndex = player.getCurrentWindowIndex();
-        if (currentIndex == C.INDEX_UNSET) return;
+        int currentIndex = 0; //player.getCurrentWindowIndex();
+//        if (currentIndex == C.INDEX_UNSET) return;
 
         for (int i = queue.size() - 1; i > currentIndex; i--) {
             queue.remove(i);
@@ -182,11 +182,11 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 
     @Override
     public void setRepeatMode(int repeatMode) {
-        player.setRepeatMode(repeatMode);
+        // player.setRepeatMode(repeatMode);
     }
 
     public int getRepeatMode() {
-        return player.getRepeatMode();
+        return 0; //player.getRepeatMode();
     }
 
     private void resetQueue() {
@@ -196,8 +196,8 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 //        player.prepare(source, true, true);
         prepared = false; // We set it to false as the queue is now empty
 
-        lastKnownWindow = C.INDEX_UNSET;
-        lastKnownPosition = C.POSITION_UNSET;
+        lastKnownWindow = 0; //C.INDEX_UNSET;
+        lastKnownPosition = 0; //C.POSITION_UNSET;
 
         manager.onReset();
     }
@@ -251,7 +251,7 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
     @Override
     public void reset() {
         Integer track = getCurrentTrackIndex();
-        long position = player.getCurrentPosition();
+        long position = 0; //player.getCurrentPosition();
 
 //        super.reset();
         resetQueue();
@@ -261,19 +261,19 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
 
     @Override
     public float getPlayerVolume() {
-        return player.getVolume();
+        return 1.0f; //player.getVolume();
     }
 
     @Override
     public void setPlayerVolume(float volume) {
-        player.setVolume(volume);
+        // player.setVolume(volume);
     }
 
-    @Override
+    // @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        if(playbackState == Player.STATE_ENDED) {
-            prepared = false;
-        }
+//        if(playbackState == Player.STATE_ENDED) {
+//            prepared = false;
+//        }
 
         int state = playbackState;
         currentState = playbackState;
@@ -300,10 +300,10 @@ public class NoOpPlayback extends ExoPlayback<SimpleExoPlayer> {
         // super.onPlayerStateChanged(playWhenReady, playbackState);
     }
 
-    @Override
-    public void onPlayerError(ExoPlaybackException error) {
+//    @Override
+    public void onPlayerError(Exception error) {
         prepared = false;
-        super.onPlayerError(error);
+        manager.onError("playback", error.getCause().getMessage());
     }
 
     @Override
