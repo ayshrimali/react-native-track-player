@@ -393,18 +393,55 @@ public class RNTrackPlayer: RCTEventEmitter {
             UIApplication.shared.endReceivingRemoteControlEvents();
         }
     }
+    
+    @objc(reportError:resolver:rejecter:)
+    public func reportError(error: String, resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        print("reportError player.")
+//        player.stop()
+        player.AVWrapper(failedWithError: NSError.init(
+                            domain: "RNTrackPlayer",
+                            code: 0,
+                            userInfo: [
+                                NSLocalizedDescriptionKey: error,
+                                NSLocalizedFailureReasonErrorKey: error
+                            ])
+        )
+        resolve(NSNull())
+        DispatchQueue.main.async {
+            UIApplication.shared.endReceivingRemoteControlEvents();
+        }
+    }
 
+    @objc(connecting:rejecter:)
+    public func connecting(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        print("connecting player.")
+        // try? AVAudioSession.sharedInstance().setActive(true)
+        // player.play()
+        player.AVWrapper(didChangeState: AVPlayerWrapperState.loading)
+        resolve(NSNull())
+    }
+
+    @objc(ready:rejecter:)
+    public func ready(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
+        print("ready player")
+        // player.pause()
+        player.setReadyState()
+        player.AVWrapper(didChangeState: AVPlayerWrapperState.ready)
+        resolve(NSNull())
+    }
+    
     @objc(play:rejecter:)
     public func play(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
-        print("Starting/Resuming playback")
+        print("Playing playback")
         try? AVAudioSession.sharedInstance().setActive(true)
         player.play()
         resolve(NSNull())
     }
-
+    
     @objc(pause:rejecter:)
     public func pause(resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) {
         print("Pausing playback")
+        try? AVAudioSession.sharedInstance().setActive(false)
         player.pause()
         resolve(NSNull())
     }

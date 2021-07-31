@@ -139,6 +139,26 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     // MARK: - Player Actions
     
+    func getMetaData(item: AudioItem) -> [AVMetadataItem] {
+        var items: [AVMetadataItem] = []
+        let titleItem =  AVMutableMetadataItem()
+        titleItem.identifier = AVMetadataIdentifier.commonIdentifierTitle
+        titleItem.value = item.getTitle() as (NSCopying & NSObjectProtocol)?
+        items.append(titleItem)
+
+        let descriptionItem = AVMutableMetadataItem()
+        descriptionItem.identifier = AVMetadataIdentifier.commonIdentifierDescription
+        descriptionItem.value = item.getAlbumTitle() as (NSCopying & NSObjectProtocol)?
+        items.append(descriptionItem)
+        
+        let artistItem = AVMutableMetadataItem()
+        artistItem.identifier = AVMetadataIdentifier.commonIdentifierArtist
+        artistItem.value = item.getArtist() as (NSCopying & NSObjectProtocol)?
+        items.append(artistItem)
+        
+        return items
+    }
+    
     /**
      Load an AudioItem into the manager.
      
@@ -153,12 +173,15 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
                 url = itemUrl
             }
             else {
+                print("loading media: Thrown AP error")
                 throw APError.LoadError.invalidSourceUrl(item.getSourceUrl())
             }
         case .file:
             url = URL(fileURLWithPath: item.getSourceUrl())
         }
         
+        print("loading media: called wrapper load")
+        wrapper.setMetaData(item: getMetaData(item: item))
         wrapper.load(from: url,
                      playWhenReady: playWhenReady,
                      initialTime: (item as? InitialTiming)?.getInitialTime(),
@@ -166,10 +189,12 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
         
         self._currentItem = item
         
+        print("loading media: automaticallyUpdateNowPlayingInfo : \(automaticallyUpdateNowPlayingInfo)")
         if (automaticallyUpdateNowPlayingInfo) {
             self.loadNowPlayingMetaValues()
         }
         enableRemoteCommands(forItem: item)
+        print("loading media: enableRemoteCommands : \(item)")
     }
     
     /**
@@ -289,6 +314,10 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     
     // MARK: - Private
     
+    func setReadyState() {
+        wrapper.setReadyState()
+    }
+    
     func reset() {
         self._currentItem = nil
     }
@@ -325,6 +354,7 @@ public class AudioPlayer: AVPlayerWrapperDelegate {
     }
     
     func AVWrapper(failedWithError error: Error?) {
+        wrapper.clearPlayerState()
         self.event.fail.emit(data: error)
     }
     

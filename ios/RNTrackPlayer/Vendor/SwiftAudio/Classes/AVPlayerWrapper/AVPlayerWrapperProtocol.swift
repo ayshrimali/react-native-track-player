@@ -47,7 +47,13 @@ protocol AVPlayerWrapperProtocol: class {
     
     func stop()
     
+    func clearPlayerState()
+    
+    func setReadyState()
+    
     func seek(to seconds: TimeInterval)
+    
+    func setMetaData(item: [AVMetadataItem])
     
     func load(from url: URL, playWhenReady: Bool, options: [String: Any]?)
     
