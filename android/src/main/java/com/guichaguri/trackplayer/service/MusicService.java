@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
+
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.media.session.MediaButtonReceiver;
@@ -35,6 +37,13 @@ public class MusicService extends HeadlessJsTaskService {
     @Override
     public void onHeadlessJsTaskFinish(int taskId) {
         // Overridden to prevent the service from being terminated
+        Log.d(Utils.LOG, "onHeadlessJsTaskFinish called");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        HeadlessJsTaskService.acquireWakeLockNow(this);
     }
 
     public void emit(String event, Bundle data) {

@@ -158,9 +158,9 @@ public class MusicManager implements OnAudioFocusChangeListener {
 
             if(!wakeLock.isHeld()) wakeLock.acquire();
 
-            if(!Utils.isLocal(track.uri)) {
+//            if(!Utils.isLocal(track.uri)) {
                 if(!wifiLock.isHeld()) wifiLock.acquire();
-            }
+//            }
         }
 
         if (playback.shouldAutoUpdateMetadata())
@@ -204,7 +204,7 @@ public class MusicManager implements OnAudioFocusChangeListener {
     }
 
     public void onStateChange(int state) {
-        Log.d(Utils.LOG, "onStateChange");
+        Log.d(Utils.LOG, "onStateChange: " + state);
 
         Bundle bundle = new Bundle();
         bundle.putInt("state", state);

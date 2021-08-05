@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.media.RatingCompat;
 import android.support.v4.media.session.MediaSessionCompat;
+
+import com.google.android.exoplayer2.util.Log;
 import com.guichaguri.trackplayer.module.MusicEvents;
 import com.guichaguri.trackplayer.service.MusicManager;
 import com.guichaguri.trackplayer.service.MusicService;
@@ -27,16 +29,19 @@ public class ButtonEvents extends MediaSessionCompat.Callback {
 
     @Override
     public void onPlay() {
+        Log.d(Utils.LOG, "remote play event sent");
         service.emit(MusicEvents.BUTTON_PLAY, null);
     }
 
     @Override
     public void onPause() {
+        Log.d(Utils.LOG, "remote pause event sent");
         service.emit(MusicEvents.BUTTON_PAUSE, null);
     }
 
     @Override
     public void onStop() {
+        Log.d(Utils.LOG, "remote stop event sent");
         service.emit(MusicEvents.BUTTON_STOP, null);
     }
 
