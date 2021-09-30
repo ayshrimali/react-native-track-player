@@ -321,10 +321,11 @@ public class MusicManager implements OnAudioFocusChangeListener {
                             .build())
                     .setWillPauseWhenDucked(alwaysPauseOnInterruption)
                     .build();
-
+            manager.setSpeakerphoneOn(true);
             r = manager.requestAudioFocus(focus);
         } else {
             //noinspection deprecation
+            manager.setSpeakerphoneOn(true);
             r = manager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         }
 
