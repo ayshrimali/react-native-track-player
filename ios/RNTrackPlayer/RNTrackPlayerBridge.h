@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <WebRTC/RTCAudioSessionConfiguration.h>
 
 @interface RNTrackPlayerBridge: NSObject
 @end

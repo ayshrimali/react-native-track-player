@@ -166,6 +166,9 @@ public class RNTrackPlayer: RCTEventEmitter {
         var sessionCategoryOptions: AVAudioSession.CategoryOptions = []
         var sessionCategoryMode: AVAudioSession.Mode = .default
 
+        // set category and mode to webRTC audio session
+        let webRTCAudioSession = RTCAudioSessionConfiguration.webRTC()
+
         if
             let sessionCategoryStr = config["iosCategory"] as? String,
             let mappedCategory = SessionCategory(rawValue: sessionCategoryStr) {
@@ -175,6 +178,7 @@ public class RNTrackPlayer: RCTEventEmitter {
         let sessionCategoryOptsStr = config["iosCategoryOptions"] as? [String]
         let mappedCategoryOpts = sessionCategoryOptsStr?.compactMap { SessionCategoryOptions(rawValue: $0)?.mapConfigToAVAudioSessionCategoryOptions() } ?? []
         sessionCategoryOptions = AVAudioSession.CategoryOptions(mappedCategoryOpts)
+        webRTCAudioSession.categoryOptions = sessionCategoryOptions
 
         if
             let sessionCategoryModeStr = config["iosCategoryMode"] as? String,
