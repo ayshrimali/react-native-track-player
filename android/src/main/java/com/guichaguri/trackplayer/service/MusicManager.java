@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.guichaguri.trackplayer.EarpieceSpeakerState;
 import com.guichaguri.trackplayer.module.MusicEvents;
 import com.guichaguri.trackplayer.service.metadata.MetadataManager;
 import com.guichaguri.trackplayer.service.models.Track;
@@ -321,11 +322,10 @@ public class MusicManager implements OnAudioFocusChangeListener {
                             .build())
                     .setWillPauseWhenDucked(alwaysPauseOnInterruption)
                     .build();
-            manager.setSpeakerphoneOn(true);
+
             r = manager.requestAudioFocus(focus);
         } else {
             //noinspection deprecation
-            manager.setSpeakerphoneOn(true);
             r = manager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         }
 
